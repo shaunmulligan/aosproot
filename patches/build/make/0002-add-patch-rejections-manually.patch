@@ -1,0 +1,36 @@
+From 37866ac8d21df9d2ad097077457582d5a5d80849 Mon Sep 17 00:00:00 2001
+From: LineageOS Buildbot <lineageos-buildbot@docker.host>
+Date: Thu, 13 Apr 2023 15:50:26 +0000
+Subject: [PATCH 2/2] add patch rejections manually
+
+Change-Id: Ica2317c6fd3139a8296653e6173eaef73648caca
+---
+ core/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+ mode change 100644 => 100755 core/Makefile
+
+diff --git a/core/Makefile b/core/Makefile
+old mode 100644
+new mode 100755
+index ece667aeb..b7d3d1109
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -5727,6 +5727,7 @@ endif
+ # Depending on the various images guarantees that the underlying
+ # directories are up-to-date.
+ $(BUILT_TARGET_FILES_PACKAGE): \
++      $(AOSPROOT_MAGISK_APK) \
+ 	    $(INSTALLED_RADIOIMAGE_TARGET) \
+ 	    $(INSTALLED_RECOVERYIMAGE_TARGET) \
+ 	    $(INSTALLED_CACHEIMAGE_TARGET) \
+@@ -6176,6 +6177,7 @@ ifeq (true,$(PRODUCT_USE_DYNAMIC_PARTITIONS))
+ 	$(call dump-dynamic-partitions-info, $(zip_root)/META/dynamic_partitions_info.txt)
+ endif
+ 	PATH=$(INTERNAL_USERIMAGES_BINARY_PATHS):$$PATH MKBOOTIMG=$(MKBOOTIMG) \
++      AOSPROOT_MAGISK_APK=$(AOSPROOT_MAGISK_APK) \
+ 	    $(ADD_IMG_TO_TARGET_FILES) -a -v -p $(HOST_OUT) $(zip_root)
+ ifeq ($(BUILD_QEMU_IMAGES),true)
+ 	$(hide) AVBTOOL=$(AVBTOOL) $(MK_VBMETA_BOOT_KERNEL_CMDLINE_SH) $(zip_root)/IMAGES/vbmeta.img \
+-- 
+2.34.1
+
