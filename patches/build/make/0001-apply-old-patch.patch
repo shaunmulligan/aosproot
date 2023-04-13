@@ -1,17 +1,17 @@
-From 914a15c19717f204b2fa318b09828bb80716ccf3 Mon Sep 17 00:00:00 2001
-From: Shaun Mulligan <switchflip.shaun@gmail.com>
-Date: Thu, 13 Apr 2023 13:29:59 +0000
-Subject: [PATCH] add aosproot patches
+From be88dabadae19b90f371390866b420521001eff3 Mon Sep 17 00:00:00 2001
+From: LineageOS Buildbot <lineageos-buildbot@docker.host>
+Date: Thu, 13 Apr 2023 15:43:42 +0000
+Subject: [PATCH 1/2] apply old patch
 
-Change-Id: Ie1544a2570402ba5e224a1e4c51397765344a426
+Change-Id: I11b320f40b4083610ad739579fdb5cf08f21530f
 ---
- core/Makefile                 |  6 ++++++
+ core/Makefile                 |  4 ++++
  tools/releasetools/Android.bp |  1 +
  tools/releasetools/common.py  | 22 ++++++++++++++++++++++
- 3 files changed, 29 insertions(+)
+ 3 files changed, 27 insertions(+)
 
 diff --git a/core/Makefile b/core/Makefile
-index c19b0754a..db8b07654 100644
+index c19b0754a..ece667aeb 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -5153,6 +5153,10 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
@@ -25,22 +25,6 @@ index c19b0754a..db8b07654 100644
  INTERNAL_OTATOOLS_RELEASETOOLS := \
    $(sort $(shell find build/make/tools/releasetools -name "*.pyc" -prune -o \
        \( -type f -o -type l \) -print))
-@@ -5723,6 +5727,7 @@ endif
- # Depending on the various images guarantees that the underlying
- # directories are up-to-date.
- $(BUILT_TARGET_FILES_PACKAGE): \
-+           $(AOSPROOT_MAGISK_APK) \
-            $(INSTALLED_RADIOIMAGE_TARGET) \
-            $(INSTALLED_RECOVERYIMAGE_TARGET) \
-            $(INSTALLED_CACHEIMAGE_TARGET) \
-@@ -6172,6 +6177,7 @@ ifeq (true,$(PRODUCT_USE_DYNAMIC_PARTITIONS))
-        $(call dump-dynamic-partitions-info, $(zip_root)/META/dynamic_partitions_info.txt)
- endif
-        PATH=$(INTERNAL_USERIMAGES_BINARY_PATHS):$$PATH MKBOOTIMG=$(MKBOOTIMG) \
-+           AOSPROOT_MAGISK_APK=$(AOSPROOT_MAGISK_APK) \
-            $(ADD_IMG_TO_TARGET_FILES) -a -v -p $(HOST_OUT) $(zip_root)
- ifeq ($(BUILD_QEMU_IMAGES),true)
-        $(hide) AVBTOOL=$(AVBTOOL) $(MK_VBMETA_BOOT_KERNEL_CMDLINE_SH) $(zip_root)/IMAGES/vbmeta.img \
 diff --git a/tools/releasetools/Android.bp b/tools/releasetools/Android.bp
 index d8e34b7b3..5e5f7a331 100644
 --- a/tools/releasetools/Android.bp
@@ -88,3 +72,4 @@ index af66122f5..db6859383 100644
      avbtool = info_dict["avb_avbtool"]
 -- 
 2.34.1
+
