@@ -17,35 +17,34 @@ Signed-off-by: Andrew Gunnerson <chillermillerlong@hotmail.com>
  3 files changed, 28 insertions(+)
 
 diff --git a/core/Makefile b/core/Makefile
-index 31586e472..03b365737 100644
+index c19b0754a..2db30e232 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -5111,6 +5111,9 @@ INTERNAL_OTATOOLS_PACKAGE_FILES += \
+@@ -5152,6 +5152,8 @@ ifeq (true,$(PRODUCT_SUPPORTS_VBOOT))
+ INTERNAL_OTATOOLS_PACKAGE_FILES += \
    $(sort $(shell find external/vboot_reference/tests/devkeys -type f))
  endif
- 
 +INTERNAL_OTATOOLS_PACKAGE_FILES += \
 +  vendor/aosproot/magisk.apk
-+
- # Factory images
- INTERNAL_OTATOOLS_PACKAGE_FILES += \
-   device/common/clear-factory-images-variables.sh \
-@@ -5682,6 +5685,7 @@ endif
+ 
+ INTERNAL_OTATOOLS_RELEASETOOLS := \
+   $(sort $(shell find build/make/tools/releasetools -name "*.pyc" -prune -o \
+@@ -5723,6 +5725,7 @@ endif
  # Depending on the various images guarantees that the underlying
  # directories are up-to-date.
  $(BUILT_TARGET_FILES_PACKAGE): \
-+	    $(AOSPROOT_MAGISK_APK) \
- 	    $(INSTALLED_RADIOIMAGE_TARGET) \
- 	    $(INSTALLED_RECOVERYIMAGE_TARGET) \
- 	    $(INSTALLED_CACHEIMAGE_TARGET) \
-@@ -6118,6 +6122,7 @@ ifeq (true,$(PRODUCT_USE_DYNAMIC_PARTITIONS))
- 	$(call dump-dynamic-partitions-info, $(zip_root)/META/dynamic_partitions_info.txt)
++           $(AOSPROOT_MAGISK_APK) \
+            $(INSTALLED_RADIOIMAGE_TARGET) \
+            $(INSTALLED_RECOVERYIMAGE_TARGET) \
+            $(INSTALLED_CACHEIMAGE_TARGET) \
+@@ -6172,6 +6175,7 @@ ifeq (true,$(PRODUCT_USE_DYNAMIC_PARTITIONS))
+        $(call dump-dynamic-partitions-info, $(zip_root)/META/dynamic_partitions_info.txt)
  endif
- 	PATH=$(INTERNAL_USERIMAGES_BINARY_PATHS):$$PATH MKBOOTIMG=$(MKBOOTIMG) \
-+	    AOSPROOT_MAGISK_APK=$(AOSPROOT_MAGISK_APK) \
- 	    $(ADD_IMG_TO_TARGET_FILES) -a -v -p $(HOST_OUT) $(zip_root)
+        PATH=$(INTERNAL_USERIMAGES_BINARY_PATHS):$$PATH MKBOOTIMG=$(MKBOOTIMG) \
++           AOSPROOT_MAGISK_APK=$(AOSPROOT_MAGISK_APK) \
+            $(ADD_IMG_TO_TARGET_FILES) -a -v -p $(HOST_OUT) $(zip_root)
  ifeq ($(BUILD_QEMU_IMAGES),true)
- 	$(hide) AVBTOOL=$(AVBTOOL) $(MK_VBMETA_BOOT_KERNEL_CMDLINE_SH) $(zip_root)/IMAGES/vbmeta.img \
+        $(hide) AVBTOOL=$(AVBTOOL) $(MK_VBMETA_BOOT_KERNEL_CMDLINE_SH) $(zip_root)/IMAGES/vbmeta.img \
 diff --git a/tools/releasetools/Android.bp b/tools/releasetools/Android.bp
 index d8e34b7b3..5e5f7a331 100644
 --- a/tools/releasetools/Android.bp
@@ -59,10 +58,10 @@ index d8e34b7b3..5e5f7a331 100644
          "brotli",
          "bsdiff",
 diff --git a/tools/releasetools/common.py b/tools/releasetools/common.py
-index 418d8daa8..235242082 100644
+index af66122f5..db6859383 100644
 --- a/tools/releasetools/common.py
 +++ b/tools/releasetools/common.py
-@@ -1711,6 +1711,28 @@ def _BuildBootableImage(image_name, sourcedir, fs_config_file, info_dict=None,
+@@ -1723,6 +1723,28 @@ def _BuildBootableImage(image_name, sourcedir, fs_config_file, info_dict=None,
      img_unsigned.close()
      img_keyblock.close()
  
