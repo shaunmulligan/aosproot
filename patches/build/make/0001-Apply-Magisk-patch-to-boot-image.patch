@@ -1,3 +1,15 @@
+From 914a15c19717f204b2fa318b09828bb80716ccf3 Mon Sep 17 00:00:00 2001
+From: Shaun Mulligan <switchflip.shaun@gmail.com>
+Date: Thu, 13 Apr 2023 13:29:59 +0000
+Subject: [PATCH] add aosproot patches
+
+Change-Id: Ie1544a2570402ba5e224a1e4c51397765344a426
+---
+ core/Makefile                 |  6 ++++++
+ tools/releasetools/Android.bp |  1 +
+ tools/releasetools/common.py  | 22 ++++++++++++++++++++++
+ 3 files changed, 29 insertions(+)
+
 diff --git a/core/Makefile b/core/Makefile
 index c19b0754a..db8b07654 100644
 --- a/core/Makefile
@@ -74,3 +86,5 @@ index af66122f5..db6859383 100644
    # AVB: if enabled, calculate and add hash to boot.img or recovery.img.
    if info_dict.get("avb_enable") == "true":
      avbtool = info_dict["avb_avbtool"]
+-- 
+2.34.1
