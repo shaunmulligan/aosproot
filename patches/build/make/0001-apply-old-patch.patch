@@ -45,7 +45,7 @@ index af66122f5..db6859383 100644
      img_unsigned.close()
      img_keyblock.close()
  
-+  if info_dict['init_boot'] == 'true':
++  if info_dict.get('init_boot') == 'true':
 +    magisk_partition = 'init_boot'
 +  else:
 +    magisk_partition = 'boot'
