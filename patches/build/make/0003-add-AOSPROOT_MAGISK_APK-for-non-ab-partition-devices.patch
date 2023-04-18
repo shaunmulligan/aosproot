@@ -1,0 +1,24 @@
+From daa6c13d2a4edfef5bc0335240260418d51ffeaa Mon Sep 17 00:00:00 2001
+From: Shaun Mulligan <switchflip.shaun@gmail.com>
+Date: Tue, 18 Apr 2023 09:29:55 +0000
+Subject: [PATCH] add AOSPROOT_MAGISK_APK for non-ab partition devices
+
+Change-Id: I6c275ccad39d8724d1eaa3747d1b2c534da4afeb
+---
+ core/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/Makefile b/core/Makefile
+index b7d3d1109..190882466 100755
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -6022,6 +6022,7 @@ endif
+ ifeq ($(TARGET_OTA_ALLOW_NON_AB),true)
+ ifneq ($(INSTALLED_RECOVERYIMAGE_TARGET),)
+ 	$(hide) PATH=$(INTERNAL_USERIMAGES_BINARY_PATHS):$$PATH MKBOOTIMG=$(MKBOOTIMG) \
++  AOSPROOT_MAGISK_APK=$(AOSPROOT_MAGISK_APK) \ 
+ 	    $(MAKE_RECOVERY_PATCH) $(zip_root) $(zip_root)
+ endif
+ endif
+-- 
+2.34.1
